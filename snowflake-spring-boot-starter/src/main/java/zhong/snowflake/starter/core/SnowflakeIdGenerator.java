@@ -193,6 +193,16 @@ public class SnowflakeIdGenerator implements IdGenerator {
         return (int) ((id & FLAGS_MASK) >> FLAGS_SHIFT);
     }
 
+    public static int getFlags(int dataCenterId, int workerId) {
+        if (dataCenterId < MIN_DATA_CENTER_ID || dataCenterId > MAX_DATA_CENTER_ID) {
+            throw new IllegalArgumentException("dataCenterId 无效：" + dataCenterId + "，参考值 [" + MIN_DATA_CENTER_ID + ", " + MAX_DATA_CENTER_ID + "]");
+        }
+        if (workerId < MIN_WORKER_ID || workerId > MAX_WORKER_ID) {
+            throw new IllegalArgumentException("workerId 无效：" + workerId + "，参考值 [" + MIN_WORKER_ID + ", " + MAX_WORKER_ID + "]");
+        }
+        return (dataCenterId << WORKER_ID_BITS) | workerId;
+    }
+
     public static int getDataCenterId(long id) {
         return (int) ((id & DATA_CENTER_ID_MASK) >> DATA_CENTER_ID_SHIFT);
     }
