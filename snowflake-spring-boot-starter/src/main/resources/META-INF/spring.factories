@@ -1,0 +1,8 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  zhong.snowflake.starter.SnowflakeConfig
+
+org.springframework.boot.SpringApplicationRunListener=\
+  zhong.snowflake.starter.AppRunListener
+
+org.springframework.context.ApplicationContextInitializer=\
+  zhong.snowflake.starter.AppContextInitializer
