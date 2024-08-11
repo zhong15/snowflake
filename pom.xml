@@ -23,8 +23,8 @@
 	<version>${revision}</version>
 
     <modules>
-        <module>snowflake-starter</module>
-		<module>snowflake-starter-test</module>
+        <module>snowflake-spring-boot-starter</module>
+		<module>snowflake-spring-boot-starter-test</module>
 	</modules>
 
     <packaging>pom</packaging>
