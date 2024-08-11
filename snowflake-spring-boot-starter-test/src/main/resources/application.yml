@@ -1,0 +1,22 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: dev
+  application:
+    name: snowflake
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    password:
+zhong:
+  snowflake:
+    enable: true
+    flags:
+    data-center-id:
+    worker-id:
+    keep-alive:
+    factor:
+  redis-lock:
+    enable: true
