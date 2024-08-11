@@ -16,9 +16,9 @@
   -->
 
 <configuration scan="false">
-    <contextName>snowflake-starter-test</contextName>
+    <contextName>snowflake-spring-boot-starter-test</contextName>
 
-    <property name="fileName" value="snowflake-starter-test"/>
+    <property name="fileName" value="snowflake-spring-boot-starter-test"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
