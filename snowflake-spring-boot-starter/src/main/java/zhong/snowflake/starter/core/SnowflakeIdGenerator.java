@@ -169,31 +169,31 @@ public class SnowflakeIdGenerator implements IdGenerator {
         }
     }
 
-    public long getTimestamp() {
+    public long getTimestampValue() {
         return timestamp;
     }
 
-    public int getFlags() {
+    public int getFlagsValue() {
         return (int) (flags >> FLAGS_BITS);
     }
 
-    public int getDataCenterId() {
+    public int getDataCenterIdValue() {
         return (int) ((flags & DATA_CENTER_ID_MASK) >> DATA_CENTER_ID_SHIFT);
     }
 
-    public int getWorkerId() {
+    public int getWorkerIdValue() {
         return (int) ((flags & WORKER_ID_MASK) >> WORKER_ID_SHIFT);
     }
 
-    public static long getTimestamp(long id) {
+    public static long getTimestampValue(long id) {
         return START_TIME + ((id & TIMESTAMP_MASK) >> TIMESTAMP_SHIFT);
     }
 
-    public static int getFlags(long id) {
+    public static int getFlagsValue(long id) {
         return (int) ((id & FLAGS_MASK) >> FLAGS_SHIFT);
     }
 
-    public static int getFlags(int dataCenterId, int workerId) {
+    public static int getFlagsValue(int dataCenterId, int workerId) {
         if (dataCenterId < MIN_DATA_CENTER_ID || dataCenterId > MAX_DATA_CENTER_ID) {
             throw new IllegalArgumentException("dataCenterId 无效：" + dataCenterId + "，参考值 [" + MIN_DATA_CENTER_ID + ", " + MAX_DATA_CENTER_ID + "]");
         }
@@ -203,15 +203,15 @@ public class SnowflakeIdGenerator implements IdGenerator {
         return (dataCenterId << WORKER_ID_BITS) | workerId;
     }
 
-    public static int getDataCenterId(long id) {
+    public static int getDataCenterIdValue(long id) {
         return (int) ((id & DATA_CENTER_ID_MASK) >> DATA_CENTER_ID_SHIFT);
     }
 
-    public static int getWorkerId(long id) {
+    public static int getWorkerIdValue(long id) {
         return (int) ((id & WORKER_ID_MASK) >> WORKER_ID_SHIFT);
     }
 
-    public static int getSequence(long id) {
+    public static int getSequenceValue(long id) {
         return (int) (id & SEQUENCE_MASK);
     }
 }

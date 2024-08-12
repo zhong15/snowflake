@@ -130,7 +130,7 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
 
         for (int i = minDataCenterId; i <= maxDataCenterId; i++) {
             for (int j = minWorkerId; j <= maxWorkerId; j++) {
-                final int flags = SnowflakeIdGenerator.getFlags(i, j);
+                final int flags = SnowflakeIdGenerator.getFlagsValue(i, j);
                 final boolean success = redisLock.lock(namespace + flags, SnowflakeConfig.SERVER_UUID, (long) (keepAlive * factor), TimeUnit.MILLISECONDS);
                 if (success) {
                     log.info("获取到雪花算法 flags={}", flags);
@@ -177,7 +177,7 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
                 log.info("上一次成功时间：{}", syncTime);
                 log.info("当前打开状态 isOpen={}", isOpen);
                 if (isOpen) {
-                    final int flags = ((SnowflakeIdGenerator) proxyObject).getFlags();
+                    final int flags = ((SnowflakeIdGenerator) proxyObject).getFlagsValue();
                     log.info("当前 flags={}", flags);
 
                     final boolean expireSuccess = redisLock.expire(namespace + flags, SnowflakeConfig.SERVER_UUID, (long) (keepAlive * factor), TimeUnit.MILLISECONDS);
