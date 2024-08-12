@@ -160,7 +160,7 @@ public class SnowflakeIdGenerator implements IdGenerator {
              * now == time，当前 now/time 可能 ID 已达上限
              */
             if (sequence == MAX_SEQUENCE) {
-                // 同一毫秒内生成的 ID 超过了 2 的 12 次方
+                // 同一毫秒内生成的 ID 已达到最大值
                 return null;
             } else {
                 // 序号递增
