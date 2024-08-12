@@ -41,7 +41,16 @@ public class SnowflakeIdGeneratorTest {
     private static final Logger log = LoggerFactory.getLogger(SnowflakeIdGeneratorTest.class);
 
     @Test
-    public void test_getNextId() {
+    public void test_getNextId_1() {
+        test_getNextId_core(new SnowflakeIdGenerator(1));
+    }
+
+    @Test
+    public void test_getNextId_2() {
+        test_getNextId_core(new SnowflakeIdGenerator(1, 2));
+    }
+
+    private void test_getNextId_core(final SnowflakeIdGenerator s) {
         final AtomicBoolean isFailure = new AtomicBoolean(false);
         final int threadNumber = 10;
         final CyclicBarrier cb = new CyclicBarrier(threadNumber);
@@ -50,7 +59,6 @@ public class SnowflakeIdGeneratorTest {
 
         final int len = 1024 * 10;
         final long[][] arr = new long[threadNumber][len];
-        final SnowflakeIdGenerator s = new SnowflakeIdGenerator(1);
 
         for (int i = 0; i < threadNumber; i++) {
             final int threadIndex = i;
