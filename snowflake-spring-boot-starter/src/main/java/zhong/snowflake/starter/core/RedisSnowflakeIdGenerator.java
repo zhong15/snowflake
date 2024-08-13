@@ -127,7 +127,7 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
         for (int i = minDataCenterId; i <= maxDataCenterId; i++) {
             for (int j = minWorkerId; j <= maxWorkerId; j++) {
                 final int flags = SnowflakeIdGenerator.getFlagsValue(i, j);
-                final boolean success = redisLock.lock(namespace + flags, SnowflakeConfig.SERVER_UUID, (long) (keepAlive * factor), TimeUnit.MILLISECONDS);
+                final boolean success = redisLock.lock(getLockKey(flags), SnowflakeConfig.SERVER_UUID, (long) (keepAlive * factor), TimeUnit.MILLISECONDS);
                 if (success) {
                     log.info("获取到雪花算法 flags={}", flags);
                     doInitIdGenerator(flags);
@@ -135,6 +135,7 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
                 }
             }
         }
+
         if (stage == 0) {
             throw new IllegalStateException("获取雪花算法 flags / dataCenterId workerId 失败，原因：Redis 中暂时没有空闲的值！当前 keepAlive 值：" + factor + " x " + keepAlive);
         } else {
@@ -176,7 +177,7 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
                     final int flags = ((SnowflakeIdGenerator) proxyObject).getFlagsValue();
                     log.info("当前 flags={}", flags);
 
-                    final boolean expireSuccess = redisLock.expire(namespace + flags, SnowflakeConfig.SERVER_UUID, (long) (keepAlive * factor), TimeUnit.MILLISECONDS);
+                    final boolean expireSuccess = redisLock.expire(getLockKey(flags), SnowflakeConfig.SERVER_UUID, (long) (keepAlive * factor), TimeUnit.MILLISECONDS);
                     log.info("延长时长成功={}", expireSuccess);
                     if (expireSuccess) {
                         syncTime = now;
@@ -184,7 +185,7 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
                     } else {
                         isOpen = false;
                         log.info("开始尝试重置");
-                        Boolean resetSuccess = redisLock.lock(namespace + flags, SnowflakeConfig.SERVER_UUID, (long) (keepAlive * factor), TimeUnit.MILLISECONDS);
+                        Boolean resetSuccess = redisLock.lock(getLockKey(flags), SnowflakeConfig.SERVER_UUID, (long) (keepAlive * factor), TimeUnit.MILLISECONDS);
                         log.info("尝试重置成功={}", resetSuccess);
                         if (resetSuccess) {
                             syncTime = now;
@@ -206,5 +207,9 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
                 isTaskRunning = false;
             }
         }, keepAlive, keepAlive, TimeUnit.MILLISECONDS);
+    }
+
+    private String getLockKey(int flags) {
+        return namespace + flags;
     }
 }
