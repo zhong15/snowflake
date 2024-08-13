@@ -101,6 +101,12 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
         log.info("init factor: {}", factor);
     }
 
+    /**
+     * 初始化 idGenerator
+     *
+     * @param stage 执行阶段，0：初始化阶段，1：定时任务调用阶段
+     * @return true 需要开启定时任务
+     */
     private boolean initIdGenerator(int stage) {
         log.info("获取雪花算法 flags / dataCenterId workerId");
 
