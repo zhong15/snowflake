@@ -121,12 +121,8 @@ public class RedisSnowflakeIdGenerator implements IdGenerator {
             log.info("指定雪花算法 dataCenterId={}", snowflakeProps.getDataCenterId());
             minDataCenterId = maxDataCenterId = snowflakeProps.getDataCenterId();
         }
-        int minWorkerId = SnowflakeIdGenerator.MIN_WORKER_ID;
-        int maxWorkerId = SnowflakeIdGenerator.MAX_WORKER_ID;
-        if (snowflakeProps.getDataCenterId() != null && snowflakeProps.getWorkerId() != null) {
-            log.info("指定雪花算法 workerId={}", snowflakeProps.getWorkerId());
-            minWorkerId = maxWorkerId = snowflakeProps.getWorkerId();
-        }
+        final int minWorkerId = SnowflakeIdGenerator.MIN_WORKER_ID;
+        final int maxWorkerId = SnowflakeIdGenerator.MAX_WORKER_ID;
 
         for (int i = minDataCenterId; i <= maxDataCenterId; i++) {
             for (int j = minWorkerId; j <= maxWorkerId; j++) {
